@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaito's Land</title>
+
+    <style>
+        
+        body{
+            /* eliminamos los margenes por defecto */
+            margin: 0; 
+
+            /* definimos el total de vizulizacion */
+            width: 100%;
+            height: 100vh;
+
+            /* los elementos se centraran tanto horizontal como verticalmente */
+            display: grid;
+
+            /* agregamos para el contador */
+            counter-reset: score;
+            place-items: center;
+
+        }
+
+
+        .total-count::after{
+            /* agregamos un pseudo elemento para que se agregue el contador! */
+            content: counter(score);
+        }
+
+
+        .phone{
+        position: relative;
+            /* definimos las medidas, color, etc del div */
+            /* border: 8px solid black; */
+            border-radius: 20px;
+            width: 300px;
+            height: 600px;
+
+            /* background: #595959; */
+            background: #c31432;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #c31432,#240b36);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #c31432,#240b36); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            /* nota : el frame del phone esta como layer 11 */
+        }
+
+        .moon{
+            width: 30px;
+            height: 30px;
+            background: rgb(223, 220, 220);
+            border-radius: 50%;
+            position: absolute;
+            top: 90px;
+            right: 30px;
+        }
+
+        /* los layers deberan ser absolute y se les agrega el z index para poder moverlos como capas independientes */
+        .layer-1{
+            position: absolute;
+            z-index: 1;
+            
+            /* definimos el tamanio del conejo1 */
+            height: 450px;
+            width: 80px;
+
+            /* definimos el color y posicion del conejo2 */
+            /* background: white; */
+            bottom: 0;
+            left: 60px;
+
+            /* agregamos la animacion de saltar definiendo el nombre de la animacion*/
+                /* animation-name: jump; lo movimos con los demas efectos que se repiten para todos! */
+                animation-duration: 6s;
+
+            /* agregamos la aceleracion con o sin cubic-bezier o una por defecto como el utilizado en este caso*/
+                /* animation-timing-function: ease-in-out; */
+                /* con inifinite va a hacer que salte infinitamente */
+                /* animation-iteration-count: infinite; */
+        }
+
+        .layer-1, .layer-2, .layer-4, .layer-6{
+            /* agregamos la animacion de saltar definiendo el nombre de la animacion*/
+                animation-name: jump;
+            /* agregamos la aceleracion con o sin cubic-bezier o una por defecto como el utilizado en este caso*/
+                animation-timing-function: ease-in-out;
+                /* con inifinite va a hacer que salte infinitamente   */
+                animation-iteration-count: infinite;
+        }
+
+        @keyframes jump{
+            0%{
+                bottom: 0;
+            }
+            50%{
+                bottom: -80px;
+            }
+            100%{
+                bottom: 0;
+            }
+        }
+
+        /* ahora generalice el estilo de los inputs para que no vieran y no alteren visualmente! */
+        input[type=checkbox]{
+            position: relative;
+            appearance: none;
+
+            /* para el contador */
+            cursor: pointer;
+            height: 50px;
+            width: 80px;   
+            margin: 0;
+            z-index: 2;
+
+        }
+
+        input[type=checkbox]:focus{
+            appearance: none;
+            outline: none;
+        }
+
+        input:checked{
+            /* incrementara al tildar el checkbox pero necesitamos agregar en la clase la porpiedad content y pseudo elemento! */
+            counter-increment: score;
+        }
+
+        .score::after{
+            content: counter(score);
+        }
+
+        .layer-2{
+            position: absolute;
+            z-index: 2;
+
+            /* definimos el tamanio del conejo2 */
+            height: 450px;
+            width: 80px;
+
+            /* definimos el color y posicion del conejo2 */
+            /* background: white; */
+            bottom: 0;
+            right: 60px;
+
+            /* animation-name: jump; */
+            animation-duration: 1.3s;
+        }
+
+        .layer-3{
+            position: absolute;
+            z-index: 3;
+
+            /* para centrar el muro y que empiece desde abajo */
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            bottom: 0;
+
+            /* definimos el size del muro */
+            width: 220px;
+            height: 400px;
+            background: black;
+            border-radius: 10px;
+        }
+
+        .layer-4{
+            position: absolute;
+            z-index: 4;
+            /* definimos el tamanio del conejo3 */
+            height: 350px;
+            width: 80px;
+            /* definimos el color y posicion del conejo3 */
+            /* background: white; */
+            bottom: 0;
+            left: 15px;
+
+            animation-duration: 1s;
+        }
+
+        .layer-5{
+            position: absolute;
+            z-index: 5;
+            margin: 0 auto;
+            bottom: 10px;
+            left: 0px;
+            /* definimos el size del muro 2 */
+            width: 200px;
+            height: 290px;
+            background: black;
+            border-radius: 10px;
+        }
+
+        .layer-6{
+            position: absolute;
+            z-index: 6;
+            /* definimos el tamanio del conejo4 */
+            height: 200px;
+            width: 80px;
+            /* definimos el color y posicion del conejo4 */
+            /* background: white; */
+            bottom: 0;
+            right: 45px;
+
+            animation-duration: 0.5s;
+        }
+        .layer-7{
+            position: absolute;
+            z-index: 7;
+            /* muro 3 a la derecha y que empiece desde abajo */
+            right: 20px;
+            bottom: 0;
+            /* definimos el size del muro 3 */
+            width: 150px;
+            height: 150px;
+            background: black;
+            border-radius: 10px;
+        }
+        .layer-8{
+            position: absolute;
+            z-index: 8;
+            /* para centrar el pasto y que empiece desde abajo */
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: 0 auto;
+            /* definimos el size del pasto */
+            width: 80px;
+            height: 120px;
+            border-radius: 40px;
+            background: rgb(19, 54, 19);
+        }
+        .layer-8b{
+            position: absolute;
+            z-index: 8;
+            /* para centrar el pasto y que empiece desde abajo */
+            /* right: 0; */
+            left: 55px;
+            bottom: 0;
+            margin: 0 auto;
+            /* definimos el size del pasto */
+            width: 100px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgb(19, 54, 19);
+        }
+        .layer-8c{
+            position: absolute;
+            z-index: 8;
+            /* para centrar el pasto y que empiece desde abajo */
+            right: 50px;
+            /* left: ; */
+            bottom: 0;
+            margin: 0 auto;
+            /* definimos el size del pasto */
+            width: 100px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgb(19, 54, 19);
+        }
+
+        .layer-9{
+            position: absolute;
+            z-index: 9;
+            /* definimos el tamanio de la nube 9 */
+            height: 90px;
+            width: 70px;
+            /* definimos el color y posicion de la nube 9*/
+            background: rgb(241, 240, 240);
+            bottom: 0;
+            left: 0;
+            border-radius: 40px;
+        }
+        .layer-9B{
+            position: absolute;
+            z-index: 9;
+            /* definimos el tamanio de la nube 9 */
+            height: 60px;
+            width: 100px;
+            /* definimos el color y posicion de la nube 9*/
+            background: rgb(241, 240, 240);
+            bottom: 0;
+            left: 0;
+            border-radius: 40px;
+        }
+
+        .layer-10{
+            position: absolute;
+            z-index: 10;
+            /* definimos el tamanio de la nube 10 */
+            height: 65px;
+            width: 100px;
+            /* definimos el color y posicion de la nube 10*/
+            background: rgb(241, 240, 240);
+            bottom: 0;
+            right: 0;
+            border-radius: 40px;
+
+        }
+        .layer-10B{
+            position: absolute;
+            z-index: 10;
+            /* definimos el tamanio de la nube 10 */
+            height: 100px;
+            width: 70px;
+            /* definimos el color y posicion de la nube 10*/
+            background: rgb(241, 240, 240);
+            bottom: 0;
+            right: 0;
+            border-radius: 40px;
+        }g
+
+        .layer-11{
+            /* que para los evetos esta capa sea invisible, para el mogituse! */
+            pointer-events: none;
+            /* marco del telefono */
+            z-index: 11;
+            position: absolute;
+            /* definimos las medidas, color, etc del div */
+            border: 8px solid rgb(23, 2, 99);
+            border-radius: 20px;
+            width: 285px;
+            height: 585px;
+            
+            /* agregamos efecto de sombra del telefono */
+            box-shadow:
+            0 19px 38px rgba(0, 0,0, 0.30),
+            0 15px 12px rgba(0, 0, 0, 0.22)            
+            
+        }
+
+        /* estilizando el conejos */
+        .left-ear--outer{
+            background: black;
+            border-radius: 90%; /* ovalado */
+            width: 20px;            
+            height: 50px;
+            /* para poder trabajar con las propiedades left right top y bottom! */
+            position: absolute;
+            left: 10px;
+            top: 0;
+        }
+        .left-ear--inner{
+            background: pink;
+            border-radius: 90%; /* ovalado */
+            width: 10px;            
+            height: 50px;
+            /* para poder trabajar con las propiedades left right top y bottom! */
+            position: absolute;
+            left: 15px;
+            top: 8px;
+        }
+        .right-ear--outer{
+            background: black;
+            border-radius: 90%; /* ovalado */
+            width: 20px;            
+            height: 50px;
+            /* para poder trabajar con las propiedades left right top y bottom! */
+            position: absolute;
+            right: 10px;
+            top: 0;
+        }
+        .right-ear--inner{
+            background: pink;
+            border-radius: 90%; /* ovalado */
+            width: 10px;            
+            height: 50px;
+            /* para poder trabajar con las propiedades left right top y bottom! */
+            position: absolute;
+            right: 15px;
+            top: 8px;
+        }
+        
+        .head{
+            /* lo definimos como absolute para que pertenezca como hijo             */
+            position: absolute;
+            /* para centrar la cabeza con respecto al padre y que empiece desde abajo */
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            top: 30px;
+
+            /* definimos el size del muro */
+            width: 60px;
+            height: 60px;
+            background: black;
+            border-radius: 50%;         
+        }
+
+        .head_eye{
+            background: cyan;
+            border-radius: 50%;
+            width: 4px;
+            height: 4px; /*aplicaremos el efecto de parpadeo a esta propiedad el cual tiene un estado inicial de 4px!!!*/
+            position: absolute;
+            top: 15px;
+        
+        /* Efecto de parpadero con un minimo error de parpadeo */
+        animation-name: blink;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        /* fin-Efecto de parpadero con un minimo error de parpadeo */
+        }
+        @keyframes blink{
+        /* aplicremos el efecto al height a la latura del los ojos! */
+            0%{
+                height: 4px;
+            }
+            5%{
+                /* Nota : la transicion es tosca parece que el ojo parpadea hacia arriba -> solucion con una transformacion y transaldo*/
+                transform: translate(0px, 2px);
+                /* 2px en en relacion al tamanio del ojo 4px -> como el error es que se mueve hacia arriba y en este caso se movera abajo al tener 2px positivo!  */
+                height: 1px;
+            }
+            10%{ 
+                /* 2px en en relacion al tamanio del ojo 4px  */
+                transform: translate(0px, 0px);
+                /* 0px lograremos que regrese a su posicion inicial */
+                height: 4px;
+            }
+        }
+
+        .head_eye--left{
+            left: 20px;
+        }
+        .head_eye--right{
+            right: 20px;
+        }
+            
+        .layer-3, .layer-5, .layer-7{
+            /* agregamos efecto de sombra del telefono */
+            box-shadow:
+                0 19px 38px rgba(240, 237, 237, 0.85),
+                0 15px 12px rgba(240, 237, 237, 0.85)
+            ;
+        }
+
+        
+        .title{
+            /* color: white;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+            /* ------ */
+            position: absolute;
+            left: 15px;
+            top: 30px;
+        }
+        img{
+            position: absolute;
+            left: 10px;
+            /* ----- */
+            width: 250px;
+            height: 40px;
+        }
+        .total-count{
+            color: white;
+            position: absolute;
+            left: 30px;
+            top: 50px;
+        }
+    /* fin-agregamos el contador */
+    
+    </style>
+</head>
+<body>
+    <!-- nota : div.phone>div.layer-$*10 + TAB -->
+    <!-- con este comando generamos la cantidad de div con layers que deseemos -->
+    <!-- phone tendra posicionamiento relativo -->
+    <div class="phone">
+    <!-- los hijos tendran posicionamiento absoluto para que se adiera (se mueva junto) al relativo -->
+    
+            <!-- moon -->
+        <div class="moon"></div>
+        <!-- fin-moon -->
+
+        <!-- Bunny1 -->
+        <div class="layer-1">
+            <label>
+        <!-- agregamos el input checkbox que sera hijo para poder utilizar el contador -->
+            <input type="checkbox" />
+            <!-- defino las ojejas -->
+            <div class="left-ear--outer"></div>
+            <div class="left-ear--inner"></div>
+            <div class="right-ear--outer"></div>
+            <div class="right-ear--inner"></div>
+            <!-- defino la cabeza -->
+            <div class="head">
+                <!-- defino los ojos, donde el espacion me permite darle mejor estilos -->
+                <div class="head_eye head_eye--left"></div>
+                <div class="head_eye head_eye--right"></div>
+            </div>
+        </label>
+        </div>
+        <!-- fin-Bunny1 -->
+
+        <!-- Bunny2 -->
+        <div class="layer-2">
+            <input type="checkbox" />
+            <!-- defino las ojejas -->
+            <div class="left-ear--outer"></div>
+            <div class="left-ear--inner"></div>
+            <div class="right-ear--outer"></div>
+            <div class="right-ear--inner"></div>
+            <!-- defino la cabeza -->
+            <div class="head">
+                <!-- defino los ojos, donde el espacion me permite darle mejor estilos -->
+                <div class="head_eye head_eye--left"></div>
+                <div class="head_eye head_eye--right"></div>
+            </div>
+        </div>
+        <!-- fin-Bunny2 -->
+    
+        <div class="layer-3"></div>
+    
+        <!-- Bunny3 -->
+        <div class="layer-4">
+            <input type="checkbox">
+            <!-- defino las ojejas -->
+            <div class="left-ear--outer"></div>
+            <div class="left-ear--inner"></div>
+            <div class="right-ear--outer"></div>
+            <div class="right-ear--inner"></div>
+            <!-- defino la cabeza -->
+            <div class="head">
+                <!-- defino los ojos, donde el espacion me permite darle mejor estilos -->
+                <div class="head_eye head_eye--left"></div>
+                <div class="head_eye head_eye--right"></div>
+            </div>           
+        </div>
+        <!-- fin-Bunny3 -->
+    
+        <div class="layer-5"></div>
+
+        <!-- Bunny4 -->    
+        <div class="layer-6">
+            <input type="checkbox">
+            <!-- defino las ojejas -->
+            <div class="left-ear--outer"></div>
+            <div class="left-ear--inner"></div>
+            <div class="right-ear--outer"></div>
+            <div class="right-ear--inner"></div>
+            <!-- defino la cabeza -->
+            <div class="head">
+                <!-- defino los ojos, donde el espacion me permite darle mejor estilos -->
+                <div class="head_eye head_eye--left"></div>
+                <div class="head_eye head_eye--right"></div>
+            </div>   
+        </div>
+        <!-- fin-Bunny4 -->
+
+        <div class="layer-7"></div>
+        <div class="layer-8"></div>
+        <div class="layer-8b"></div>
+        <div class="layer-8c"></div>
+        <div class="layer-9"></div>
+        <div class="layer-9B"></div>
+        <div class="layer-10"></div>
+        <div class="layer-10B"></div>
+        <div class="layer-11"></div>
+        
+        <!-- Titulo y puntuacion -->
+        <div class="title">
+            <a href="https://fontmeme.com/super-mario-font/"><img src="https://fontmeme.com/permalink/210920/171be567c75fd7ab93f2d765818bd59a.png" alt="kaitos land picture" border="0"></a>
+        </div>
+        <h2 class="total-count">
+            Score :
+        </h2>
+    </div>
+</body>
+</html>
